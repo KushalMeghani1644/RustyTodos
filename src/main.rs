@@ -5,6 +5,17 @@ struct Todo {
     description: String,
     done: bool,
 }
+
+fn get_new_id(todos: &Vec<Todo>) -> u32 {
+    let mut id = 1;
+    loop {
+        if !todos.iter().any(|t| t.id == id) {
+            return id;
+        }
+        id += 1;
+    }
+}
+
 fn main() {
     let mut todos: Vec<Todo> = Vec::new();
     let mut next_id = 1;
@@ -29,13 +40,13 @@ fn main() {
                 let mut desc = String::new();
                 io::stdin().read_line(&mut desc).unwrap();
                 let desc = desc.trim().to_string();
+                let id = get_new_id(&todos);
 
                 todos.push(Todo {
-                    id: next_id,
+                    id,
                     description: desc,
                     done: false,
                 });
-                next_id += 1;
             }
             "2" => {
                 if todos.is_empty() {
