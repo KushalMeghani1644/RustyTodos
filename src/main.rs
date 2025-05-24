@@ -1,9 +1,24 @@
+use serde::{Deserialize, Serialize};
+use serde_json;
+use std::fs;
 use std::io::{self, Write};
-#[derive(Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Todo {
     id: u32,
     description: String,
     done: bool,
+}
+
+fn save_todos(todos: &Vec<Todo>) {
+    let data = serde_json::to_string_pretty(todos).expect("Failed to serialize todos");
+    fs::write("todos.json", data).expect("Failed to write todos to file!");
+}
+
+fn load_todos() -> Vec<Todo> {
+    match fs::read_to_string("todos.json") {
+        Ok(data) => serde_json::from_str(&data).unwrap_or_else(|_| Vec::new()),
+        Err(_) => Vec::new(),
+    }
 }
 
 fn get_new_id(todos: &Vec<Todo>) -> u32 {
@@ -17,8 +32,8 @@ fn get_new_id(todos: &Vec<Todo>) -> u32 {
 }
 
 fn main() {
-    let mut todos: Vec<Todo> = Vec::new();
-    let mut next_id = 1;
+    let mut todos: Vec<Todo> = load_todos();
+    //let mut todos: Vec<Todo> = Vec::new();
 
     loop {
         println!("\n=== Todo List ===");
@@ -47,6 +62,7 @@ fn main() {
                     description: desc,
                     done: false,
                 });
+                save_todos(&todos);
             }
             "2" => {
                 if todos.is_empty() {
@@ -87,6 +103,8 @@ fn main() {
                 }
                 if !found {
                     println!("Todo with id {} not found", id);
+                } else {
+                    save_todos(&todos);
                 }
             }
             "4" => {
@@ -106,6 +124,7 @@ fn main() {
                 todos.retain(|todo| todo.id != id);
                 if todos.len() < orig_len {
                     println!("Removed todo {}", id);
+                    save_todos(&todos);
                 } else {
                     println!("Todo with id {} not found", id);
                 }
