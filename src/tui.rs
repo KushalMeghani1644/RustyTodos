@@ -1,6 +1,10 @@
+// tui.rs
+
 use crate::app::{App, InputMode};
 use crossterm::{
-    event::{self, DisableMouseCapture, EnableMouseCapture, Event as CEvent, KeyCode},
+    event::{
+        self, DisableMouseCapture, EnableMouseCapture, Event as CEvent, KeyCode, KeyEventKind,
+    },
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
@@ -12,10 +16,7 @@ use ratatui::{
     text::{Span, Spans},
     widgets::{Block, Borders, List, ListItem, Paragraph, Wrap},
 };
-use std::{
-    io,
-    time::{Duration, Instant},
-};
+use std::{io, time::Duration};
 
 pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<()> {
     loop {
@@ -23,6 +24,10 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
 
         if crossterm::event::poll(Duration::from_millis(100))? {
             if let CEvent::Key(key) = event::read()? {
+                if key.kind != KeyEventKind::Press {
+                    continue;
+                }
+
                 match app.input_mode {
                     InputMode::Normal => match key.code {
                         KeyCode::Char('q') => return Ok(()),
@@ -30,6 +35,7 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
                             app.input_mode = InputMode::EditingDescription;
                             app.input_description.clear();
                             app.input_due_date.clear();
+                            app.error_message = None;
                         }
                         KeyCode::Char('d') => app.delete_todo(),
                         KeyCode::Char('m') => app.mark_done(),
@@ -62,11 +68,17 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
                     },
                     InputMode::EditingDueDate => match key.code {
                         KeyCode::Enter => {
-                            app.add_todo();
-                            app.input_mode = InputMode::Normal;
+                            match app.add_todo() {
+                                Ok(_) => app.input_mode = InputMode::Normal,
+                                Err(e) => {
+                                    app.error_message = Some(e);
+                                    // Stay in due date input mode
+                                }
+                            }
                         }
                         KeyCode::Esc => {
                             app.input_mode = InputMode::Normal;
+                            app.error_message = None;
                         }
                         KeyCode::Char(c) => {
                             app.input_due_date.push(c);
@@ -90,10 +102,11 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
         .margin(2)
         .constraints(
             [
-                Constraint::Length(3),
-                Constraint::Length(3),
-                Constraint::Min(1),
-                Constraint::Length(5),
+                Constraint::Length(3), // title
+                Constraint::Length(3), // help
+                Constraint::Min(1),    // todo list
+                Constraint::Length(5), // description input
+                Constraint::Length(3), // due date input (too small)
             ]
             .as_ref(),
         )
@@ -131,7 +144,11 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
                 .due_date
                 .clone()
                 .unwrap_or_else(|| "No due date".to_string());
-            ListItem::new(format!("{} {} (Due: {})", status, t.description, due))
+            let created = t.created_date.clone();
+            ListItem::new(format!(
+                "{} {} (Due: {}) [Created: {}]",
+                status, t.description, due, created
+            ))
         })
         .collect();
 
@@ -166,21 +183,52 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
         Style::default()
     };
 
-    let input = Paragraph::new(vec![
-        Spans::from(vec![
-            Span::styled(
-                "Description: ",
-                Style::default().add_modifier(Modifier::BOLD),
-            ),
-            Span::styled(&app.input_description, description_style),
-        ]),
-        Spans::from(vec![
-            Span::styled("Due Date: ", Style::default().add_modifier(Modifier::BOLD)),
-            Span::styled(&app.input_due_date, due_date_style),
-        ]),
-    ])
-    .block(Block::default().borders(Borders::ALL).title("Input"))
-    .wrap(ratatui::widgets::Wrap { trim: false });
+    // Show input with caret
+    let caret = "|"; // caret symbol
 
-    f.render_widget(input, chunks[3]);
+    let desc_with_caret = if matches!(app.input_mode, InputMode::EditingDescription) {
+        format!("{}{}", app.input_description, caret)
+    } else {
+        app.input_description.clone()
+    };
+    let due_with_caret = if matches!(app.input_mode, InputMode::EditingDueDate) {
+        if app.input_due_date.is_empty() {
+            caret.to_string()
+        } else {
+            format!("{}{}", app.input_due_date, caret)
+        }
+    } else {
+        app.input_due_date.clone()
+    };
+
+    let input_desc = Paragraph::new(desc_with_caret)
+        .block(Block::default().borders(Borders::ALL).title("Description"))
+        .style(description_style)
+        .wrap(Wrap { trim: true });
+
+    let input_due = Paragraph::new(due_with_caret)
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title("Due Date (YYYY-MM-DD)"),
+        )
+        .style(due_date_style)
+        .wrap(Wrap { trim: true });
+
+    f.render_widget(input_desc, chunks[3]);
+    f.render_widget(input_due, chunks[4]);
+
+    // Show error message if any
+    if let Some(ref msg) = app.error_message {
+        let error = Paragraph::new(msg.as_str())
+            .style(Style::default().fg(Color::Red).add_modifier(Modifier::BOLD))
+            .alignment(Alignment::Center);
+        let area = ratatui::layout::Rect {
+            x: size.x,
+            y: size.height.saturating_sub(2),
+            width: size.width,
+            height: 1,
+        };
+        f.render_widget(error, area);
+    }
 }

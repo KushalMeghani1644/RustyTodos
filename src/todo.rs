@@ -1,25 +1,20 @@
-// src/todo.rs
-use chrono::NaiveDate;
-use serde::{Deserialize, Serialize};
-use std::fs;
+// todo.rs
+use chrono::Local;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Todo {
-    pub id: u32,
     pub description: String,
-    pub done: bool,
-    pub created_at: String,
     pub due_date: Option<String>,
+    pub created_date: String,
+    pub done: bool,
 }
 
-pub fn load_todos() -> Vec<Todo> {
-    match fs::read_to_string("todos.json") {
-        Ok(data) => serde_json::from_str(&data).unwrap_or_else(|_| Vec::new()),
-        Err(_) => Vec::new(),
+impl Todo {
+    pub fn new(description: String, due_date: Option<String>) -> Self {
+        Self {
+            description,
+            due_date,
+            created_date: Local::now().format("%Y-%m-%d").to_string(),
+            done: false,
+        }
     }
-}
-
-pub fn save_todos(todos: &Vec<Todo>) {
-    let data = serde_json::to_string_pretty(todos).expect("Failed to serialize todos");
-    fs::write("todos.json", data).expect("Failed to write todos to file!");
 }
