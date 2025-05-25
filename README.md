@@ -22,8 +22,8 @@ Get the latest release from the [Releases page](https://github.com/your-username
 
 | Platform   | Download                                              |
 |------------|-------------------------------------------------------|
-| Linux      | `rustytodos-v0.3.0-linux.tar.gz`                      |
-| Windows    | `rustytodos-v0.3.0-windows.zip`                       |
+| Linux      | `rustytodos-v1.0.0.tar.gz`                      |
+| Windows    | `rustytodos-v1.0.0(windows).zip`                       |
 
 ---
 
