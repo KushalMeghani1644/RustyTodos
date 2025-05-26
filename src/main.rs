@@ -1,3 +1,5 @@
+// main.rs
+
 mod app;
 mod todo;
 mod tui;
@@ -8,7 +10,7 @@ use crossterm::{
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
 use ratatui::{Terminal, backend::CrosstermBackend};
-use std::io::{self, Write};
+use std::io::{self};
 
 fn main() -> io::Result<()> {
     enable_raw_mode()?;
