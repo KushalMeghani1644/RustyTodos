@@ -1,6 +1,8 @@
 // todo.rs
 use chrono::Local;
-
+use serde::{Deserialize, Serialize};
+use serde_json;
+#[derive(Serialize, Deserialize)]
 pub struct Todo {
     pub description: String,
     pub due_date: Option<String>,
