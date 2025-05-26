@@ -15,19 +15,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Rust
+      - name: Set up Rust stable
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
-      - name: Build RustyTodos
+      - name: Build release binary
         run: cargo build --release
 
-      - name: Upload macOS binary
-        uses: actions/upload-artifact@d735b5f4b67a2bbad8dfcf580a31b7b59d3ddf7d
+      - name: Upload macOS binary artifact
+        uses: actions/upload-artifact@v3
         with:
           name: RustyTodos-macos
           path: target/release/rustytodos
-
-
