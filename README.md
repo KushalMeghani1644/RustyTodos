@@ -3,6 +3,8 @@
 RustyTodos is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
+![DEMO FOR MY APP](https://github.com/user-attachments/assets/370d1c8d-c0d7-4710-b734-9da87f160957)
+
 ## 🚀 Features
 
 ✅ Interactive terminal UI (TUI)  
