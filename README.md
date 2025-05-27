@@ -16,7 +16,8 @@ Manage your tasks visually with an intuitive TUI—add, list, mark as done, and 
 - [x] Delete todos by ID  
 - [x] Persistent storage in a JSON file  
 - [x] Cross-platform binaries (Linux & Windows)  
-- [x] Pre-built binaries for easy setup  
+- [x] Pre-built binaries for easy setup
+- [x] Cross platform notification (Linux & Windows)
 
 ---
 
