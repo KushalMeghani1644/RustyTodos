@@ -4,7 +4,7 @@ mod app;
 mod todo;
 mod tui;
 
-use crate::app::App;
+use crate::app::{App, get_data_file_path};
 use crossterm::{
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
@@ -20,8 +20,10 @@ fn main() -> io::Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
+    let data_path = get_data_file_path();
+
     // Load app state or start fresh
-    let mut app = App::load_from_file("todos.json");
+    let mut app = App::load_from_file(&data_path);
 
     // Run your TUI event loop (this should block until exit)
     let res = tui::run_app(&mut terminal, &mut app);
@@ -32,7 +34,7 @@ fn main() -> io::Result<()> {
     terminal.show_cursor()?;
 
     // Save app state on exit
-    if let Err(e) = app.save_to_file("todos.json") {
+    if let Err(e) = app.save_to_file(&data_path) {
         eprintln!("Failed to save todos: {}", e);
     }
 
