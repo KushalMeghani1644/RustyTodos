@@ -1,6 +1,7 @@
 // main.rs
 
 mod app;
+mod daemon;
 mod todo;
 mod tui;
 
@@ -12,7 +13,13 @@ use crossterm::{
 use ratatui::{Terminal, backend::CrosstermBackend};
 use std::io::{self};
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    std::thread::spawn(|| {
+        if let Err(e) = daemon::start_daemon() {
+            eprintln!("Daemon error: {}", e);
+        }
+    });
+
     enable_raw_mode()?;
     let mut stdout = io::stdout();
     execute!(stdout, EnterAlternateScreen)?;
