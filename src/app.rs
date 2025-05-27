@@ -1,11 +1,21 @@
 // app.rs
-
 use crate::todo::Todo;
 use crate::tui::parse_due_date;
 use chrono::Local;
+use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
+use std::f32::consts::PI;
 use std::fs::{File, OpenOptions};
 use std::io::{BufReader, BufWriter};
+use std::path::{Path, PathBuf};
+
+pub fn get_data_file_path() -> PathBuf {
+    let proj_dirs = ProjectDirs::from("com", "KushalMeghani", "RustyTodos")
+        .expect("Failed to get project directories");
+    let dir = proj_dirs.config_dir();
+    std::fs::create_dir_all(dir).unwrap();
+    dir.join("todos.json")
+}
 
 #[derive(PartialEq, Deserialize, Serialize)]
 pub enum InputMode {
@@ -95,7 +105,7 @@ impl App {
         }
     }
 
-    pub fn save_to_file(&self, path: &str) -> Result<(), String> {
+    pub fn save_to_file<P: AsRef<Path>>(&self, path: P) -> Result<(), String> {
         let file = OpenOptions::new()
             .write(true)
             .create(true)
@@ -109,8 +119,8 @@ impl App {
             .map_err(|e| format!("Failed to write JSON!: {}", e))
     }
 
-    pub fn load_from_file(path: &str) -> Self {
-        let file = File::open(path);
+    pub fn load_from_file<P: AsRef<Path>>(path: P) -> Self {
+        let file = File::open(&path);
         if let Ok(file) = file {
             let reader = BufReader::new(file);
             serde_json::from_reader(reader).unwrap_or_else(|_| App::new())
