@@ -1,6 +1,8 @@
 // app.rs
+
 use crate::todo::Todo;
-use chrono::{Local, NaiveDate};
+use crate::tui::parse_due_date;
+use chrono::Local;
 use serde::{Deserialize, Serialize};
 use std::fs::{File, OpenOptions};
 use std::io::{BufReader, BufWriter};
@@ -54,29 +56,27 @@ impl App {
 
     pub fn add_todo(&mut self) -> Result<(), String> {
         if self.input_description.trim().is_empty() {
-            return Err("Description cannot be empty!".into());
+            return Err("Description cannot be empty.".to_string());
         }
 
-        let due_date_option = if self.input_due_date.trim().is_empty() {
+        let due_date_str = if self.input_due_date.trim().is_empty() {
             None
         } else {
-            match NaiveDate::parse_from_str(&self.input_due_date, "%Y-%m-%d") {
-                Ok(date) => {
-                    let today = Local::now().date_naive();
-                    if date < today {
-                        return Err("Due date cannot be in the past!".into());
-                    }
-                    Some(date.format("%Y-%m-%d").to_string())
-                }
-                Err(_) => return Err("Invalid date format! Use YYYY-MM-DD.".into()),
-            }
+            Some(parse_due_date(&self.input_due_date)?)
         };
 
-        self.todos
-            .push(Todo::new(self.input_description.clone(), due_date_option));
-        self.error_message = None;
+        self.todos.push(Todo {
+            description: self.input_description.clone(),
+            done: false,
+            due_date: due_date_str,
+            created_date: Local::now().format("%Y-%m-%d").to_string(),
+        });
+
+        // clear inputs after adding
         self.input_description.clear();
         self.input_due_date.clear();
+        self.error_message = None;
+
         Ok(())
     }
 
