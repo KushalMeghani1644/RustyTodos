@@ -22,6 +22,7 @@ pub enum InputMode {
     Normal,
     EditingDescription,
     EditingDueDate,
+    Searching, // Added for search mode
 }
 
 #[derive(Serialize, Deserialize)]
@@ -38,6 +39,8 @@ pub struct App {
     pub selected: usize,
     #[serde(skip)]
     pub error_message: Option<String>,
+    #[serde(skip)]
+    pub search_query: String, // Added for search
 }
 
 impl Default for InputMode {
@@ -61,6 +64,7 @@ impl App {
             input_due_date: String::new(),
             selected: 0,
             error_message: None,
+            search_query: String::new(), // Initialize search_query
         }
     }
 

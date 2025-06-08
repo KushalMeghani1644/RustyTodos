@@ -37,8 +37,12 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
                         }
                         KeyCode::Char('d') => app.delete_todo(),
                         KeyCode::Char('m') => app.mark_done(),
+                        KeyCode::Char('/') => {
+                            app.input_mode = InputMode::Searching;
+                            app.search_query.clear();
+                        }
                         KeyCode::Down => {
-                            if app.selected < app.todos.len().saturating_sub(1) {
+                            if app.selected < filtered_todos(app).len().saturating_sub(1) {
                                 app.selected += 1;
                             }
                         }
@@ -65,18 +69,14 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
                         _ => {}
                     },
                     InputMode::EditingDueDate => match key.code {
-                        KeyCode::Enter => {
-                            match app.add_todo() {
-                                Ok(_) => app.input_mode = InputMode::Normal,
-                                Err(e) => {
-                                    app.error_message = Some(e);
-                                    // Stay in due date input mode
-                                }
+                        KeyCode::Enter => match app.add_todo() {
+                            Ok(_) => app.input_mode = InputMode::Normal,
+                            Err(e) => {
+                                app.error_message = Some(e);
                             }
-                        }
+                        },
                         KeyCode::Esc => {
                             app.input_mode = InputMode::Normal;
-                            app.error_message = None;
                         }
                         KeyCode::Char(c) => {
                             app.input_due_date.push(c);
@@ -86,9 +86,52 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Res
                         }
                         _ => {}
                     },
+                    InputMode::Searching => match key.code {
+                        KeyCode::Esc => {
+                            app.input_mode = InputMode::Normal;
+                            app.search_query.clear();
+                        }
+                        KeyCode::Char(c) => {
+                            app.search_query.push(c);
+                            app.selected = 0;
+                        }
+                        KeyCode::Backspace => {
+                            app.search_query.pop();
+                            app.selected = 0;
+                        }
+                        KeyCode::Down => {
+                            if app.selected < filtered_todos(app).len().saturating_sub(1) {
+                                app.selected += 1;
+                            }
+                        }
+                        KeyCode::Up => {
+                            if app.selected > 0 {
+                                app.selected -= 1;
+                            }
+                        }
+                        _ => {}
+                    },
                 }
             }
         }
+    }
+}
+
+fn filtered_todos(app: &App) -> Vec<&crate::todo::Todo> {
+    if app.search_query.is_empty() {
+        app.todos.iter().collect()
+    } else {
+        let q = app.search_query.to_lowercase();
+        app.todos
+            .iter()
+            .filter(|t| {
+                t.description.to_lowercase().contains(&q)
+                    || t.due_date
+                        .as_ref()
+                        .map(|d| d.to_lowercase().contains(&q))
+                        .unwrap_or(false)
+            })
+            .collect()
     }
 }
 
@@ -103,6 +146,7 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
                 Constraint::Length(3), // title
                 Constraint::Length(3), // help
                 Constraint::Min(1),    // todo list
+                Constraint::Length(3), // search input
                 Constraint::Length(5), // description input
                 Constraint::Length(3), // due date input
             ]
@@ -112,9 +156,7 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
 
     let title = Paragraph::new(Span::styled(
         "🌟 RustyTodos! 🌟",
-        Style::default()
-            .fg(Color::Magenta)
-            .add_modifier(Modifier::BOLD),
+        Style::default().add_modifier(Modifier::BOLD),
     ))
     .alignment(Alignment::Center);
     f.render_widget(title, chunks[0]);
@@ -127,32 +169,29 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
         Span::raw(" to mark done, "),
         Span::styled("d", Style::default().add_modifier(Modifier::BOLD)),
         Span::raw(" to delete, "),
+        Span::styled("/", Style::default().add_modifier(Modifier::BOLD)),
+        Span::raw(" to search, "),
         Span::styled("q", Style::default().add_modifier(Modifier::BOLD)),
         Span::raw(" to quit."),
     ]))
     .alignment(Alignment::Center);
     f.render_widget(help, chunks[1]);
 
-    let todos: Vec<ListItem> = app
-        .todos
+    let todos: Vec<ListItem> = filtered_todos(app)
         .iter()
         .map(|t| {
             let status = if t.done { "[x]" } else { "[ ]" };
-
             let due_date_str = t
                 .due_date
                 .clone()
                 .unwrap_or_else(|| "No due date".to_string());
-
-            // Color logic: Green if completed, Red if overdue, Yellow if pending
             let desc_color = if t.done {
-                Color::Green // Task completed - always green
+                Color::Green
             } else if is_overdue(&due_date_str) {
-                Color::Red // Task overdue - red
+                Color::Red
             } else {
-                Color::Yellow // Task pending - yellow
+                Color::Yellow
             };
-
             let spans = Spans::from(vec![
                 Span::raw(format!("{} ", status)),
                 Span::styled(&t.description, Style::default().fg(desc_color)),
@@ -161,13 +200,14 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
                     due_date_str, t.created_date
                 )),
             ]);
-
             ListItem::new(spans)
         })
         .collect();
 
     let mut list_state = ratatui::widgets::ListState::default();
-    list_state.select(Some(app.selected));
+    if !todos.is_empty() {
+        list_state.select(Some(app.selected.min(todos.len() - 1)));
+    }
 
     let todos_list = List::new(todos)
         .block(Block::default().borders(Borders::ALL).title("Todos"))
@@ -181,6 +221,29 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
 
     f.render_stateful_widget(todos_list, chunks[2], &mut list_state);
 
+    // Search input
+    let search_style = if matches!(app.input_mode, InputMode::Searching) {
+        Style::default()
+            .fg(Color::Yellow)
+            .add_modifier(Modifier::BOLD)
+    } else {
+        Style::default()
+    };
+    let caret = "|";
+    let search_with_caret = if matches!(app.input_mode, InputMode::Searching) {
+        format!("Search: {}{}", app.search_query, caret)
+    } else if !app.search_query.is_empty() {
+        format!("Search: {}", app.search_query)
+    } else {
+        "".to_string()
+    };
+    let search_input = Paragraph::new(search_with_caret)
+        .block(Block::default().borders(Borders::ALL).title("Search"))
+        .style(search_style)
+        .wrap(Wrap { trim: true });
+    f.render_widget(search_input, chunks[3]);
+
+    // Description and due date input fields (unchanged)
     let description_style = if matches!(app.input_mode, InputMode::EditingDescription) {
         Style::default()
             .fg(Color::Yellow)
@@ -188,7 +251,6 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
     } else {
         Style::default()
     };
-
     let due_date_style = if matches!(app.input_mode, InputMode::EditingDueDate) {
         Style::default()
             .fg(Color::Yellow)
@@ -196,10 +258,6 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
     } else {
         Style::default()
     };
-
-    // Show input with caret
-    let caret = "|";
-
     let desc_with_caret = if matches!(app.input_mode, InputMode::EditingDescription) {
         format!("{}{}", app.input_description, caret)
     } else {
@@ -214,12 +272,10 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
     } else {
         app.input_due_date.clone()
     };
-
     let input_desc = Paragraph::new(desc_with_caret)
         .block(Block::default().borders(Borders::ALL).title("Description"))
         .style(description_style)
         .wrap(Wrap { trim: true });
-
     let input_due = Paragraph::new(due_with_caret)
         .block(
             Block::default()
@@ -228,9 +284,8 @@ fn ui<B: Backend>(f: &mut ratatui::Frame<B>, app: &App) {
         )
         .style(due_date_style)
         .wrap(Wrap { trim: true });
-
-    f.render_widget(input_desc, chunks[3]);
-    f.render_widget(input_due, chunks[4]);
+    f.render_widget(input_desc, chunks[4]);
+    f.render_widget(input_due, chunks[5]);
 
     // Show error message if any
     if let Some(ref msg) = app.error_message {
