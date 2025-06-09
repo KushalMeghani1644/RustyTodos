@@ -18,12 +18,13 @@ Manage your tasks visually with an intuitive TUI—add, list, mark as done, and 
 - [x] Cross-platform binaries (Linux & Windows)  
 - [x] Pre-built binaries for easy setup
 - [x] Cross platform notification (Linux & Windows)
+- [x] Search option to search for your todos!
 
 ---
 
 ## Download
 
-Get the latest release from the [Releases page](https://github.com/your-username/rustytodos/releases).
+Get the latest release from the [Releases page](https://github.com/KushalMeghani1644/RustyTodos/releases).
 
 | Platform   | Download                                              |
 |------------|-------------------------------------------------------|
