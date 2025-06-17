@@ -1,7 +1,11 @@
-# RustyTodos 🦀 - A Modern TUI Todo App
+# RustyTodos™ 🦀 - A Modern TUI Todo App
 
-RustyTodos is a fast, lightweight, and interactive terminal Todo app built in Rust.  
+RustyTodos™ is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
+
+    ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
+
+    🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
 
 ![DEMO FOR MY APP](https://github.com/user-attachments/assets/370d1c8d-c0d7-4710-b734-9da87f160957)
 
@@ -28,8 +32,8 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 
 | Platform   | Download                                              |
 |------------|-------------------------------------------------------|
-| Linux      | `rustytodos-v1.0.0.tar.gz`                      |
-| Windows    | `rustytodos-v1.0.0(windows).zip`                       |
+| Linux      | `rustytodos-v2.1.1.tar.gz`                      |
+| Windows    | `rustytodos-v2.1.1(windows).zip`                       |
 
 ---
 
@@ -41,7 +45,7 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 2. Extract the archive:
 ```bash
 # For Linux
-tar -xzf rustytodos-v0.3.0-linux.tar.gz
+tar -xzf rustytodos-v2.1.1-linux.tar.gz
 
 # For Windows
 # Extract using your preferred archive manager (e.g., 7-Zip)

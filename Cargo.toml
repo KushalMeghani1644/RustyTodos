@@ -1,6 +1,6 @@
 [package]
 name = "RustyTodos"
-version = "2.1.1"
+version = "2.1.2"
 edition = "2024"
 license = "MIT"
 description = "A TUI based todo app written in Rust with search and cross platoform notification support"
