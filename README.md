@@ -207,4 +207,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ in Rust** 🦀
+
 **Shout-out to [Kivooeo](https://github.com/Kivooeo) for contributing to the code!**
