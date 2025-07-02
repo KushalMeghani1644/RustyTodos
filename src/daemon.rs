@@ -8,6 +8,10 @@ use notify_rust::Notification;
 
 #[cfg(target_os = "windows")]
 use notifica::notify;
+
+#[cfg(target_os = "macos")]
+use macos_notification_sys::*;
+
 pub fn start_daemon() -> Result<(), Box<dyn std::error::Error>> {
     println!("RustyTodos Daemon Started... ");
 
@@ -34,6 +38,15 @@ pub fn start_daemon() -> Result<(), Box<dyn std::error::Error>> {
                                 "RustyTodos",
                                 &format!("\"{}\" is due today! Don't forget!", todo.description),
                             );
+                        }
+                        #[cfg(target_os = "macos")]
+                        {
+                            send_notification(
+                                "RustyTodos",
+                                &None,
+                                &format!("\"{}\" is due today! Don't forget!", todo.description),
+                                None,
+                            )?;
                         }
                     }
                 }
