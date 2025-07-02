@@ -32,8 +32,8 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 
 | Platform   | Download                                              |
 |------------|-------------------------------------------------------|
-| Linux      | `rustytodos-v2.1.1.tar.gz`                      |
-| Windows    | `rustytodos-v2.1.1(windows).zip`                       |
+| Linux      | `rustytodos-v2.1.3.tar.gz`                      |
+| Windows    | `rustytodos-v2.1.3(windows).zip`                       |
 
 ---
 
@@ -45,7 +45,7 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 2. Extract the archive:
 ```bash
 # For Linux
-tar -xzf rustytodos-v2.1.1-linux.tar.gz
+tar -xzf rustytodos-v2.1.3-linux.tar.gz
 
 # For Windows
 # Extract using your preferred archive manager (e.g., 7-Zip)
@@ -165,7 +165,7 @@ year, next year        # Next year (365 days from now)
 ### Steps
 ```bash
 # Clone the repository
-git clone https://github.com/Kushal_Meghani1644/rustytodos.git
+git clone https://github.com/Kushal_Meghani1644/RustyTodos.git
 cd rustytodos
 
 # Build and run
