@@ -1,13 +1,12 @@
 # RustyTodos™ 🦀 - A Modern TUI Todo App
 
-<<<<<<< HEAD
 RustyTodos™ is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
     ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
 
     🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
-=======
+
 **RustyTodos™** is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
