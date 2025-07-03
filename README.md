@@ -44,7 +44,6 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 =======
 | Linux      | `rustytodos-v2.1.1.tar.gz`                      |
 | Windows    | `rustytodos-v2.1.1(windows).zip`                       |
->>>>>>> c931762491b113cfb94339e1ddbefe0f3d1ea14e
 
 ---
 
