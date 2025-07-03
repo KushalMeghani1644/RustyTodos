@@ -1,11 +1,20 @@
 # RustyTodos™ 🦀 - A Modern TUI Todo App
 
+<<<<<<< HEAD
 RustyTodos™ is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
     ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
 
     🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
+=======
+**RustyTodos™** is a fast, lightweight, and interactive terminal Todo app built in Rust.  
+Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
+
+> ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
+
+> 🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
+>>>>>>> c931762491b113cfb94339e1ddbefe0f3d1ea14e
 
 ![DEMO FOR MY APP](https://github.com/user-attachments/assets/370d1c8d-c0d7-4710-b734-9da87f160957)
 
@@ -32,8 +41,13 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 
 | Platform   | Download                                              |
 |------------|-------------------------------------------------------|
+<<<<<<< HEAD
 | Linux      | `rustytodos-v2.1.3.tar.gz`                      |
 | Windows    | `rustytodos-v2.1.3(windows).zip`                       |
+=======
+| Linux      | `rustytodos-v2.1.1.tar.gz`                      |
+| Windows    | `rustytodos-v2.1.1(windows).zip`                       |
+>>>>>>> c931762491b113cfb94339e1ddbefe0f3d1ea14e
 
 ---
 
@@ -45,7 +59,11 @@ Get the latest release from the [Releases page](https://github.com/KushalMeghani
 2. Extract the archive:
 ```bash
 # For Linux
+<<<<<<< HEAD
 tar -xzf rustytodos-v2.1.3-linux.tar.gz
+=======
+tar -xzf rustytodos-v2.1.1-linux.tar.gz
+>>>>>>> c931762491b113cfb94339e1ddbefe0f3d1ea14e
 
 # For Windows
 # Extract using your preferred archive manager (e.g., 7-Zip)
@@ -207,3 +225,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ in Rust** 🦀
+
+**Shout-out to [Kivooeo](https://github.com/Kivooeo) for contributing to the code!**
