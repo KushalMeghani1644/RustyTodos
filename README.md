@@ -1,19 +1,23 @@
 # RustyTodos™ 🦀 - A Modern TUI Todo App
 
-<<<<<<< HEAD
 RustyTodos™ is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
     ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
 
     🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
-=======
+
 **RustyTodos™** is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
 > ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
 
 > 🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
+<<<<<<< HEAD
+=======
+
+![DEMO FOR MY APP](https://private-user-images.githubusercontent.com/168952248/461976762-6b2edf6e-712a-4b45-835f-a2bfc96d8cd9.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTE1Mzg2MDgsIm5iZiI6MTc1MTUzODMwOCwicGF0aCI6Ii8xNjg5NTIyNDgvNDYxOTc2NzYyLTZiMmVkZjZlLTcxMmEtNGI0NS04MzVmLWEyYmZjOTZkOGNkOS5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzAzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcwM1QxMDI1MDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03ZGM0OTMwY2FhZWM1MTc0ZjAxNmNmNzE2NjE4OTZlZDRmNWQxYzE4Mzg5YWExZDAwZTFlYjA5MTE3NzU1MzJlJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.OvsJsJajKdyaz9IgcxY_0y-HJBYTiouIjB9fNbTzanw)
+>>>>>>> 36ae0914aa9d4f17d1b11927613e988f3768a80b
 
 ## Features
 
