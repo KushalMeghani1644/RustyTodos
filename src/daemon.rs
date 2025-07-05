@@ -13,8 +13,6 @@ use notifica::notify;
 use macos_notification_sys::*;
 
 pub fn start_daemon() -> Result<(), Box<dyn std::error::Error>> {
-    println!("RustyTodos Daemon Started... ");
-
     loop {
         let data_path = get_data_file_path();
         let app = App::load_from_file(&data_path);
