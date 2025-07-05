@@ -1,8 +1,8 @@
 [package]
 name = "RustyTodos"
-version = "2.1.7"
+version = "2.1.8"
 edition = "2024"
-license = "MIT"
+license = "GPL-3.0-or-later"
 description = "A TUI based todo app written in Rust with search and cross platoform notification support"
 readme = "README.md"
 repository = "https://github.com/KushalMeghani1644/RustyTodos.git"
