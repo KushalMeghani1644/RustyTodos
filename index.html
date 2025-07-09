@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RustyTodos</title>
+    <script type="module" src="/src/main.ts" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex flex-col items-center p-6 font-sans">
+    <div class="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8">
+      <h1 class="text-4xl font-bold text-blue-600 text-center mb-6">🦀 RustyTodos</h1>
+
+      <div class="flex flex-col sm:flex-row gap-4 mb-6">
+        <input
+          id="description"
+          class="flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="What do you want to do?"
+        />
+        <input
+          id="due_date"
+          class="w-48 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Due Date (optional)"
+        />
+        <button
+          id="addButton"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-3 rounded-lg transition-colors"
+        >
+          Add
+        </button>
+      </div>
+
+      <div id="todos" class="flex flex-col gap-3"></div>
+    </div>
+  </body>
+</html>
