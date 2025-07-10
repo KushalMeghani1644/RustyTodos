@@ -52,3 +52,6 @@ GPLv3 — because knowledge and learning should stay open forever.
 ## 👨‍💻 Author
 
 Made with ❤️ by [KushalMeghani](https://github.com/KushalMeghani1644)
+
+## Contributors
+Huge thanks to [Kivooeo](https://github.com/Kivooeo) for kindly contributing to my project!
