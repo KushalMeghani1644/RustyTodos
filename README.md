@@ -55,5 +55,9 @@ Made with ❤️ by [KushalMeghani](https://github.com/KushalMeghani1644)
 
 ## Contributors
 Huge thanks to [Kivooeo](https://github.com/Kivooeo) for kindly contributing to my project!
+
 ---
-## BUILT WITH ❤️ IN RUST
+
+# BUILT WITH ❤️ IN RUST
+
+---
