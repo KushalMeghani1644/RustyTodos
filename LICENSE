@@ -632,7 +632,7 @@ state the exclusion of warranty; and each file should have at least
 the "copyright" line and a pointer to where the full notice is found.
     
     RustyTodos is a GUI based todo making app, made with Rust backend and TS fronted with Tauri
-    Copyright (C) 2025  KushalMeghani1644
+    Copyright (C) 2025  Kushal Meghani
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -651,7 +651,7 @@ Also add information on how to contact you by electronic and paper mail.
   If the program does terminal interaction, make it output a short
 notice like this when it starts in an interactive mode:
 
-    RustyTodos  Copyright (C) 2025  KushalMeghani1644
+    RustyTodos  Copyright (C) 2025  Kushal Meghani
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type `show c' for details.
