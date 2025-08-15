@@ -5,9 +5,9 @@
 RustyTodos is a blazing-fast, cross-platform todo manager built with Rust + Tauri.  
 Originally a terminal app — now a fully featured GUI for everyone!
 
-⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
-
-🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
+## Trademark Notice
+The names “Rusty-Suite”, “RustyTodos”, “RustyBoot”, and “Rusty-Checker” are part of this project’s identity.  
+See [TRADEMARK.md](TRADEMARK.md) for details.
 
 ---
 
