@@ -10,9 +10,9 @@ Manage your tasks visually with an intuitive TUI—add, list, mark as done, and 
 **RustyTodos™** is a fast, lightweight, and interactive terminal Todo app built in Rust.  
 Manage your tasks visually with an intuitive TUI—add, list, mark as done, and delete todos—right from your terminal!
 
-> ⚠️ RustyTodos™ is an unregistered trademark of Kushal Meghani.
-
-> 🚫 RustyTodos™ is not affiliated with or endorsed by the Rust Foundation or Mozilla.
+## Trademark Notice
+The names “Rusty-Suite”, “RustyTodos”, “RustyBoot”, and “Rusty-Checker” are part of this project’s identity.  
+See [TRADEMARK.md](TRADEMARK.md) for details.
 
 ![DEMO FOR MY APP](https://raw.githubusercontent.com/KushalMeghani1644/RustyTodos/0bed35d4fc2228ed3571e4c06aeb2edfda36e5f9/media/RustyTodos_demo.gif)
 
