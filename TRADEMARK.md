@@ -1,6 +1,6 @@
 # Trademark Notice
 
-The names **"Rusty-Suite"**, **"RustyTodos"**, **"RustyBoot"**, and **"Rusty-Checker"** are unregistered trademarks of the project author.
+The names **"Rusty-Suite"**, **"RustyTodos"**, **"RustyBoot"**,**"Oxide"**, and **"Rusty-Checker"** are unregistered trademarks of the project author.
 
 ## Usage Guidelines
 
